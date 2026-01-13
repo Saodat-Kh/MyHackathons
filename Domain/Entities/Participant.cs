@@ -10,7 +10,7 @@ public class Participant
     
     
     //navigation
-    public int TeamId { get; set; }
+    public int? TeamId { get; set; }
     public Team? Team { get; set; }
 
     

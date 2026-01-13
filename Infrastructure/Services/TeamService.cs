@@ -11,6 +11,7 @@ namespace Infrastructure.Services;
 
 public class TeamService(ApplicationDataContext context) : ITeamService
 {
+    #region CreateTeam
     public Response<string> CreateTeam(CreateTeamDto dto)
     {
         var newTeam = new Team()
@@ -25,7 +26,9 @@ public class TeamService(ApplicationDataContext context) : ITeamService
             : new Response<string>(HttpStatusCode.BadRequest, " Team created Failed !");
         
     }
+    #endregion
 
+    #region UpdateTeam
     public Response<string> UpdateTeam(int id, UpdateTeamDto dto)
     {
         var res = context.Teams.FirstOrDefault(x => x.Id == id);
@@ -37,8 +40,10 @@ public class TeamService(ApplicationDataContext context) : ITeamService
             ? new Response<string>(HttpStatusCode.OK, " Team updated successfully !")
             : new Response<string>(HttpStatusCode.BadRequest, " Team updated failed !");
     }
+    #endregion
 
-    public Response<string> Delete(int id)
+    #region DeleteTeam
+    public Response<string> DeleteTeam(int id)
     {
         var res = context.Teams.FirstOrDefault(x => x.Id == id);
         if(res ==  null)
@@ -49,7 +54,9 @@ public class TeamService(ApplicationDataContext context) : ITeamService
          ? new Response<string>(HttpStatusCode.OK, " Team deleted successfully !")
             : new Response<string>(HttpStatusCode.BadRequest, " Team deleted failed !");
     }
+    #endregion
 
+        #region GetAllTeams
     public Response<List<GetTeamDto>> GetAllTeam()
     {
         var res = context.Teams.Include(x => x.Hackathon).ToList();
@@ -62,7 +69,9 @@ public class TeamService(ApplicationDataContext context) : ITeamService
         }).ToList();
         return new Response<List<GetTeamDto>>(dto);
     }
+    #endregion
 
+    #region  GetTeamById
     public Response<GetTeamDto> GetTeamById(int id)
     {
        var res = context.Teams.FirstOrDefault(x => x.Id == id);
@@ -75,7 +84,9 @@ public class TeamService(ApplicationDataContext context) : ITeamService
        return new Response<GetTeamDto>(dto);
 
     }
+    #endregion
 
+    #region GetTeamWithParticipants
     public Response<List<GetTeamWithParticipant>> GetAllTeamsWithParticipant()
     {
         var res2 = context.Teams.Include(x => x.Participants).Select(s => new GetTeamWithParticipant()
@@ -92,7 +103,10 @@ public class TeamService(ApplicationDataContext context) : ITeamService
         }).ToList();
         return new Response<List<GetTeamWithParticipant>>(res2);
     }
-    }
+    #endregion
+    
+    
+}
 
 
  
